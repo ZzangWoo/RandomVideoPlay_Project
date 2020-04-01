@@ -19,3 +19,4 @@ D:\Projects\ForMom\ForMom\ForMom\bin\Debug\MakeLog.dll
 D:\Projects\ForMom\ForMom\ForMom\bin\Debug\MakeLog.pdb
 D:\Projects\ForMom\ForMom\ForMom\bin\Debug\Entity.dll
 D:\Projects\ForMom\ForMom\ForMom\bin\Debug\Entity.pdb
+D:\Projects\ForMom\ForMom\ForMom\bin\Debug\WindowsBase.dll

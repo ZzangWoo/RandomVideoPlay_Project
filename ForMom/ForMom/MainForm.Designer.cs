@@ -128,6 +128,7 @@
             this.RandomFolderPlayButton.UseCustomBackColor = true;
             this.RandomFolderPlayButton.UseCustomForeColor = true;
             this.RandomFolderPlayButton.UseSelectable = true;
+            this.RandomFolderPlayButton.Click += new System.EventHandler(this.RandomFolderPlayButton_Click);
             // 
             // MainForm
             // 

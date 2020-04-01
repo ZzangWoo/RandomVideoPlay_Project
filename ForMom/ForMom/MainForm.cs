@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace ForMom
 {
@@ -112,6 +113,29 @@ namespace ForMom
             }
         }
 
+        /// <summary>
+        /// [랜덤] 재생
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RandomFolderPlayButton_Click(object sender, EventArgs e)
+        {
+            if (RandomVideoFolderListView.SelectedItems.Count > 0)
+            {
+                int index = RandomVideoFolderListView.FocusedItem.Index;
+
+                log.WriteLog(randomFolderList[index].folderPath + " 재생");
+
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                mediaPlayer.Open(new Uri(randomFolderList[index].folderPath + @"\내일은 미스트롯.E10.190502.720p-NEXT.mp4"));
+                mediaPlayer.Play();
+            }
+            else
+            {
+                MessageBox.Show("선택된 항목이 없습니다.");
+            }
+        }
+
         #endregion
 
         #region ## About One
@@ -191,7 +215,13 @@ namespace ForMom
 
             foreach (var list in directoryInfo.GetFiles())
             {
-                videoCount++;
+                string filePath = list.FullName;
+                string extension = Path.GetExtension(filePath);
+                if (extension == ".mov" || extension == ".mp3" || extension == ".avi"
+                    || extension == ".3gp" || extension == ".wmv" || extension == ".mp4")
+                {
+                    videoCount++;
+                }
             }
 
             return videoCount;
@@ -291,6 +321,8 @@ namespace ForMom
 
 
         #endregion
+
+        
     }
 
 }
