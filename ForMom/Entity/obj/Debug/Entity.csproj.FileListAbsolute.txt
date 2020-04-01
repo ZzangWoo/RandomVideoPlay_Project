@@ -1,0 +1,5 @@
+D:\Projects\ForMom\ForMom\Entity\bin\Debug\Entity.dll
+D:\Projects\ForMom\ForMom\Entity\bin\Debug\Entity.pdb
+D:\Projects\ForMom\ForMom\Entity\obj\Debug\Entity.dll
+D:\Projects\ForMom\ForMom\Entity\obj\Debug\Entity.pdb
+D:\Projects\ForMom\ForMom\Entity\obj\Debug\Entity.csprojAssemblyReference.cache

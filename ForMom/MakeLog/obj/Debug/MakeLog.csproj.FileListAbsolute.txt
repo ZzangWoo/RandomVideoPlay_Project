@@ -1,0 +1,8 @@
+D:\Projects\ForMom\ForMom\MakeLog\bin\Debug\MakeLog.dll
+D:\Projects\ForMom\ForMom\MakeLog\bin\Debug\MakeLog.pdb
+D:\Projects\ForMom\ForMom\MakeLog\obj\Debug\MakeLog.csprojAssemblyReference.cache
+D:\Projects\ForMom\ForMom\MakeLog\obj\Debug\MakeLog.dll
+D:\Projects\ForMom\ForMom\MakeLog\obj\Debug\MakeLog.pdb
+D:\Projects\ForMom\ForMom\MakeLog\bin\Debug\Entity.dll
+D:\Projects\ForMom\ForMom\MakeLog\bin\Debug\Entity.pdb
+D:\Projects\ForMom\ForMom\MakeLog\obj\Debug\MakeLog.csproj.CopyComplete
