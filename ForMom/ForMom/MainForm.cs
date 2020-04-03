@@ -3,15 +3,10 @@ using MakeLog;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using WMPLib;
 
 namespace ForMom
 {
@@ -124,11 +119,63 @@ namespace ForMom
             {
                 int index = RandomVideoFolderListView.FocusedItem.Index;
 
-                log.WriteLog(randomFolderList[index].folderPath + " 재생");
+                DirectoryInfo directoryInfo = new DirectoryInfo(randomFolderList[index].folderPath);
 
-                MediaPlayer mediaPlayer = new MediaPlayer();
-                mediaPlayer.Open(new Uri(randomFolderList[index].folderPath + @"\내일은 미스트롯.E10.190502.720p-NEXT.mp4"));
-                mediaPlayer.Play();
+                log.WriteLog(randomFolderList[index].folderPath + " 폴더 랜덤 재생 시작");
+
+                // 재생할 영상 개수 확인
+                if (RandomVedioCountUpDown.Value != 0)
+                {
+                    log.WriteLog("[랜덤 재생] : 재생할 영상 개수 확인");
+                    // 폴더 경로 확인
+                    if (directoryInfo.Exists)
+                    {
+                        log.WriteLog("[랜덤 재생] : 폴더 경로 확인");
+
+                        // 폴더 안 동영상 개수 확인
+                        int vedioCount = CountFolderVideos(randomFolderList[index].folderPath);
+                        if (vedioCount > 0)
+                        {
+                            log.WriteLog("[랜덤 재생] : 폴더 안 동영상 개수 확인");
+                            // 재생할 영상 개수와 폴더 안 영상 개수 비교
+                            if (vedioCount >= RandomVedioCountUpDown.Value)
+                            {
+                                log.WriteLog("[랜덤 재생] : 재생할 영상 개수와 폴더 안 영상 개수 비교 확인");
+                            }
+                            else
+                            {
+                                log.WriteLog("[WARNING] : 재생할 영상 개수가 폴더 안 영상 개수보다 많음");
+                                MessageBox.Show("폴더 안의 영상 개수보다 재생할 영상 개수가 더 많습니다.\n재생할 영상 개수를 다시 설정해주세요.");
+                            }
+                        }
+                        else
+                        {
+                            log.WriteLog("[WARNING] : 폴더 안 동영상 존재하지 않음");
+                            MessageBox.Show("선택한 폴더에 동영상이 없습니다.\n해당 폴더를 다시 한 번 확인해주세요.");
+                        }
+                    }
+                    else
+                    {
+                        log.WriteLog("[WARNING] : 폴더 경로 확인 실패");
+                        MessageBox.Show("선택한 폴더가 존재하지 않습니다.");
+
+                        randomFolderList.RemoveAt(index);
+                        RandomVideoFolderListView.Items.RemoveAt(index);
+
+                        log.WriteLog("랜덤 리스트 삭제 완료");
+                        log.SaveListLog(randomFolderList, randomVideoFolderLists);
+                        log.WriteLog("랜덤 리스트 업데이트 완료");
+                    }
+
+                    //WindowsMediaPlayer player = new WindowsMediaPlayer();
+                    //player.openPlayer(randomFolderList[index].folderPath + @"\내일은 미스트롯.E10.190502.720p-NEXT.mp4");
+                }
+                else
+                {
+                    log.WriteLog("[WARNING] : 재생할 영상 개수가 0");
+                    MessageBox.Show("재생할 영상 개수가 설정되지 않았습니다. 설정해주세요.");
+                }
+                
             }
             else
             {

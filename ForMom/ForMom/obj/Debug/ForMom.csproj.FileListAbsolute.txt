@@ -20,3 +20,8 @@ D:\Projects\ForMom\ForMom\ForMom\bin\Debug\MakeLog.pdb
 D:\Projects\ForMom\ForMom\ForMom\bin\Debug\Entity.dll
 D:\Projects\ForMom\ForMom\ForMom\bin\Debug\Entity.pdb
 D:\Projects\ForMom\ForMom\ForMom\bin\Debug\WindowsBase.dll
+D:\Projects\ForMom\ForMom\ForMom\bin\Debug\Interop.WMPLib.dll
+D:\Projects\ForMom\ForMom\ForMom\bin\Debug\AxInterop.WMPLib.dll
+D:\Projects\ForMom\ForMom\ForMom\obj\Debug\Interop.WMPLib.dll
+D:\Projects\ForMom\ForMom\ForMom\obj\Debug\AxInterop.WMPLib.dll
+D:\Projects\ForMom\ForMom\ForMom\obj\Debug\ForMom.csproj.ResolveComReference.cache

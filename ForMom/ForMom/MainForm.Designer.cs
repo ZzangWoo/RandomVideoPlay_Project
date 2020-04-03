@@ -36,6 +36,9 @@
             this.RandomFolderSelectButton = new MetroFramework.Controls.MetroButton();
             this.RandomFolderDeleteButton = new MetroFramework.Controls.MetroButton();
             this.RandomFolderPlayButton = new MetroFramework.Controls.MetroButton();
+            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
+            this.RandomVedioCountUpDown = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.RandomVedioCountUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // metroUserControl1
@@ -130,12 +133,35 @@
             this.RandomFolderPlayButton.UseSelectable = true;
             this.RandomFolderPlayButton.Click += new System.EventHandler(this.RandomFolderPlayButton_Click);
             // 
+            // metroLabel2
+            // 
+            this.metroLabel2.AutoSize = true;
+            this.metroLabel2.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.metroLabel2.Location = new System.Drawing.Point(139, 372);
+            this.metroLabel2.Name = "metroLabel2";
+            this.metroLabel2.Size = new System.Drawing.Size(115, 19);
+            this.metroLabel2.TabIndex = 6;
+            this.metroLabel2.Text = "재생할 영상 개수";
+            this.metroLabel2.UseCustomBackColor = true;
+            // 
+            // RandomVedioCountUpDown
+            // 
+            this.RandomVedioCountUpDown.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.RandomVedioCountUpDown.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RandomVedioCountUpDown.Location = new System.Drawing.Point(278, 374);
+            this.RandomVedioCountUpDown.Name = "RandomVedioCountUpDown";
+            this.RandomVedioCountUpDown.Size = new System.Drawing.Size(60, 17);
+            this.RandomVedioCountUpDown.TabIndex = 7;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1219, 682);
+            this.Controls.Add(this.RandomVedioCountUpDown);
+            this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.RandomFolderPlayButton);
             this.Controls.Add(this.RandomFolderDeleteButton);
             this.Controls.Add(this.RandomFolderSelectButton);
@@ -147,6 +173,7 @@
             this.Text = "동영상 재생 프로그램";
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
             this.TransparencyKey = System.Drawing.Color.Khaki;
+            ((System.ComponentModel.ISupportInitialize)(this.RandomVedioCountUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,6 +188,8 @@
         private MetroFramework.Controls.MetroButton RandomFolderPlayButton;
         private System.Windows.Forms.ColumnHeader folderName;
         private System.Windows.Forms.ColumnHeader folderCount;
+        private MetroFramework.Controls.MetroLabel metroLabel2;
+        private System.Windows.Forms.NumericUpDown RandomVedioCountUpDown;
     }
 }
 
