@@ -4,6 +4,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Media;
 using WMPLib;
@@ -140,7 +141,38 @@ namespace ForMom
                             // 재생할 영상 개수와 폴더 안 영상 개수 비교
                             if (vedioCount >= RandomVedioCountUpDown.Value)
                             {
-                                log.WriteLog("[랜덤 재생] : 재생할 영상 개수와 폴더 안 영상 개수 비교 확인");
+                                try
+                                {
+                                    log.WriteLog("[랜덤 재생] : 재생할 영상 개수와 폴더 안 영상 개수 비교 확인");
+                                    List<string> randomPlayList = AddPlayList(randomFolderList[index].folderPath);
+
+                                    PlayForm playForm = new PlayForm();
+                                    playForm.Show();
+
+                                    //WindowsMediaPlayer player = new WindowsMediaPlayer();
+                                    //IWMPPlaylist playList = player.playlistCollection.newPlaylist("RandomPlayList");
+                                    //IWMPMedia media;
+
+                                    //foreach (var list in randomPlayList)
+                                    //{
+                                    //    media = player.newMedia(list);
+                                    //    playList.appendItem(media);
+                                    //}
+
+                                    //player.currentPlaylist = playList;
+
+                                    //player.openPlayer(randomPlayList[0]);
+                                    //if (player.playState == WMPPlayState.wmppsPlaying)
+                                    //{
+                                    //    player.fullScreen = true;
+                                    //}
+                                    //player.openPlayer(randomFolderList[index].folderPath + @"\내일은 미스트롯.E10.190502.720p-NEXT.mp4");
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("[에러발생] 동영상을 실행하는데 에러가 발생했습니다.\n관리자에게 문의하세요");
+                                    log.WriteLog("[Error] : " + ex);
+                                }
                             }
                             else
                             {
@@ -192,6 +224,39 @@ namespace ForMom
         #endregion
 
         #region # Public Method
+
+        /// <summary>
+        /// 선택한 폴더에 있는 영상 플레이리스트에 추가
+        /// </summary>
+        /// <param name="path"></param>
+        public List<string> AddPlayList(string path)
+        {
+            List<string> playList = new List<string>();
+
+            var files = Directory.GetFiles(path);
+            var rand = new Random();
+
+            int playCount = (int)RandomVedioCountUpDown.Value;
+            if (playCount == 1)
+            {
+                playList.Add(files[rand.Next(files.Length)]);
+            }
+            else
+            {
+                while (playCount > 0)
+                {
+                    string randomVideoName = files[rand.Next(files.Length)];
+                    if (playList.Count == 0 || !playList.Contains(randomVideoName))
+                    {
+                        playList.Add(randomVideoName);
+                        playCount--;
+                    }
+                }
+            }
+
+            return playList;
+            
+        }
 
         /// <summary>
         /// 선택한 폴더 리스트 추가
