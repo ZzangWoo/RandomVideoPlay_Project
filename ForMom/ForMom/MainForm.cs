@@ -19,6 +19,7 @@ namespace ForMom
         string randomVideoFolderLists = "RandomVideoFolderLists.txt";
 
         List<RandomFolder> randomFolderList;
+        //List<string> randomPlayList; // 랜덤 플레이 리스트
 
         MainLog log;
 
@@ -26,6 +27,9 @@ namespace ForMom
 
         #region # Initialize
 
+        /// <summary>
+        /// 생성자
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
@@ -116,6 +120,18 @@ namespace ForMom
         /// <param name="e"></param>
         private void RandomFolderPlayButton_Click(object sender, EventArgs e)
         {
+            #region ### 폼 중복 열기 방지
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm.Name == "PlayForm")
+                {
+                    openForm.Activate();
+                    return;
+                }
+            }
+            #endregion
+
+            #region ### 예외처리
             if (RandomVideoFolderListView.SelectedItems.Count > 0)
             {
                 int index = RandomVideoFolderListView.FocusedItem.Index;
@@ -146,7 +162,8 @@ namespace ForMom
                                     log.WriteLog("[랜덤 재생] : 재생할 영상 개수와 폴더 안 영상 개수 비교 확인");
                                     List<string> randomPlayList = AddPlayList(randomFolderList[index].folderPath);
 
-                                    PlayForm playForm = new PlayForm();
+                                    PlayForm playForm = new PlayForm(randomPlayList);
+                                    playForm.Owner = this;
                                     playForm.Show();
 
                                     //WindowsMediaPlayer player = new WindowsMediaPlayer();
@@ -213,6 +230,7 @@ namespace ForMom
             {
                 MessageBox.Show("선택된 항목이 없습니다.");
             }
+            #endregion
         }
 
         #endregion
