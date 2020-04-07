@@ -38,15 +38,19 @@
             this.RandomFolderPlayButton = new MetroFramework.Controls.MetroButton();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.RandomVedioCountUpDown = new System.Windows.Forms.NumericUpDown();
+            this.metroUserControl2 = new MetroFramework.Controls.MetroUserControl();
+            this.metroUserControl3 = new MetroFramework.Controls.MetroUserControl();
+            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.RandomVedioCountUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // metroUserControl1
             // 
             this.metroUserControl1.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.metroUserControl1.Location = new System.Drawing.Point(42, 105);
+            this.metroUserControl1.Location = new System.Drawing.Point(43, 81);
             this.metroUserControl1.Name = "metroUserControl1";
-            this.metroUserControl1.Size = new System.Drawing.Size(457, 373);
+            this.metroUserControl1.Size = new System.Drawing.Size(449, 373);
             this.metroUserControl1.TabIndex = 2;
             this.metroUserControl1.UseCustomBackColor = true;
             this.metroUserControl1.UseSelectable = true;
@@ -59,7 +63,7 @@
             this.folderCount});
             this.RandomVideoFolderListView.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.RandomVideoFolderListView.FullRowSelect = true;
-            this.RandomVideoFolderListView.Location = new System.Drawing.Point(73, 150);
+            this.RandomVideoFolderListView.Location = new System.Drawing.Point(73, 130);
             this.RandomVideoFolderListView.Name = "RandomVideoFolderListView";
             this.RandomVideoFolderListView.OwnerDraw = true;
             this.RandomVideoFolderListView.Size = new System.Drawing.Size(392, 200);
@@ -85,7 +89,7 @@
             this.metroLabel1.BackColor = System.Drawing.Color.PaleTurquoise;
             this.metroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.metroLabel1.ForeColor = System.Drawing.SystemColors.ScrollBar;
-            this.metroLabel1.Location = new System.Drawing.Point(73, 128);
+            this.metroLabel1.Location = new System.Drawing.Point(73, 108);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(69, 19);
             this.metroLabel1.TabIndex = 4;
@@ -96,7 +100,7 @@
             // 
             this.RandomFolderSelectButton.BackColor = System.Drawing.Color.Azure;
             this.RandomFolderSelectButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.RandomFolderSelectButton.Location = new System.Drawing.Point(73, 410);
+            this.RandomFolderSelectButton.Location = new System.Drawing.Point(73, 385);
             this.RandomFolderSelectButton.Name = "RandomFolderSelectButton";
             this.RandomFolderSelectButton.Size = new System.Drawing.Size(115, 44);
             this.RandomFolderSelectButton.TabIndex = 5;
@@ -109,7 +113,7 @@
             // 
             this.RandomFolderDeleteButton.BackColor = System.Drawing.Color.Azure;
             this.RandomFolderDeleteButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.RandomFolderDeleteButton.Location = new System.Drawing.Point(213, 410);
+            this.RandomFolderDeleteButton.Location = new System.Drawing.Point(213, 385);
             this.RandomFolderDeleteButton.Name = "RandomFolderDeleteButton";
             this.RandomFolderDeleteButton.Size = new System.Drawing.Size(115, 44);
             this.RandomFolderDeleteButton.TabIndex = 5;
@@ -123,7 +127,7 @@
             // 
             this.RandomFolderPlayButton.BackColor = System.Drawing.Color.Azure;
             this.RandomFolderPlayButton.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.RandomFolderPlayButton.Location = new System.Drawing.Point(350, 410);
+            this.RandomFolderPlayButton.Location = new System.Drawing.Point(350, 385);
             this.RandomFolderPlayButton.Name = "RandomFolderPlayButton";
             this.RandomFolderPlayButton.Size = new System.Drawing.Size(115, 44);
             this.RandomFolderPlayButton.TabIndex = 5;
@@ -138,7 +142,7 @@
             this.metroLabel2.AutoSize = true;
             this.metroLabel2.BackColor = System.Drawing.Color.PaleTurquoise;
             this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel2.Location = new System.Drawing.Point(139, 372);
+            this.metroLabel2.Location = new System.Drawing.Point(152, 345);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(115, 19);
             this.metroLabel2.TabIndex = 6;
@@ -149,25 +153,76 @@
             // 
             this.RandomVedioCountUpDown.BackColor = System.Drawing.Color.PaleTurquoise;
             this.RandomVedioCountUpDown.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.RandomVedioCountUpDown.Location = new System.Drawing.Point(278, 374);
+            this.RandomVedioCountUpDown.Location = new System.Drawing.Point(291, 347);
             this.RandomVedioCountUpDown.Name = "RandomVedioCountUpDown";
             this.RandomVedioCountUpDown.Size = new System.Drawing.Size(60, 17);
             this.RandomVedioCountUpDown.TabIndex = 7;
+            // 
+            // metroUserControl2
+            // 
+            this.metroUserControl2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.metroUserControl2.Location = new System.Drawing.Point(523, 81);
+            this.metroUserControl2.Name = "metroUserControl2";
+            this.metroUserControl2.Size = new System.Drawing.Size(449, 373);
+            this.metroUserControl2.TabIndex = 8;
+            this.metroUserControl2.UseCustomBackColor = true;
+            this.metroUserControl2.UseSelectable = true;
+            this.metroUserControl2.Load += new System.EventHandler(this.metroUserControl2_Load);
+            // 
+            // metroUserControl3
+            // 
+            this.metroUserControl3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.metroUserControl3.Location = new System.Drawing.Point(1004, 81);
+            this.metroUserControl3.Name = "metroUserControl3";
+            this.metroUserControl3.Size = new System.Drawing.Size(449, 373);
+            this.metroUserControl3.TabIndex = 8;
+            this.metroUserControl3.UseCustomBackColor = true;
+            this.metroUserControl3.UseSelectable = true;
+            // 
+            // metroLabel3
+            // 
+            this.metroLabel3.AutoSize = true;
+            this.metroLabel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.metroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.metroLabel3.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.metroLabel3.Location = new System.Drawing.Point(550, 108);
+            this.metroLabel3.Name = "metroLabel3";
+            this.metroLabel3.Size = new System.Drawing.Size(129, 19);
+            this.metroLabel3.TabIndex = 4;
+            this.metroLabel3.Text = "재생 목록 장바구니";
+            this.metroLabel3.UseCustomBackColor = true;
+            // 
+            // metroLabel4
+            // 
+            this.metroLabel4.AutoSize = true;
+            this.metroLabel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.metroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.metroLabel4.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.metroLabel4.Location = new System.Drawing.Point(1038, 108);
+            this.metroLabel4.Name = "metroLabel4";
+            this.metroLabel4.Size = new System.Drawing.Size(69, 19);
+            this.metroLabel4.TabIndex = 4;
+            this.metroLabel4.Text = "개별 재생";
+            this.metroLabel4.UseCustomBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(1219, 682);
+            this.ClientSize = new System.Drawing.Size(1501, 484);
             this.Controls.Add(this.RandomVedioCountUpDown);
             this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.RandomFolderPlayButton);
             this.Controls.Add(this.RandomFolderDeleteButton);
             this.Controls.Add(this.RandomFolderSelectButton);
+            this.Controls.Add(this.metroLabel4);
+            this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.RandomVideoFolderListView);
             this.Controls.Add(this.metroUserControl1);
+            this.Controls.Add(this.metroUserControl2);
+            this.Controls.Add(this.metroUserControl3);
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(0, 60, 0, 0);
             this.Text = "동영상 재생 프로그램";
@@ -190,6 +245,10 @@
         private System.Windows.Forms.ColumnHeader folderCount;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private System.Windows.Forms.NumericUpDown RandomVedioCountUpDown;
+        private MetroFramework.Controls.MetroUserControl metroUserControl2;
+        private MetroFramework.Controls.MetroUserControl metroUserControl3;
+        private MetroFramework.Controls.MetroLabel metroLabel3;
+        private MetroFramework.Controls.MetroLabel metroLabel4;
     }
 }
 
