@@ -40,7 +40,8 @@ namespace MakeLog
             {
                 foreach (var randomFolder in randomFolders)
                 {
-                    streamWriter.WriteLine(randomFolder.folderPath + "\t" + randomFolder.folderName);
+                    //streamWriter.WriteLine(randomFolder.folderPath + "\t" + randomFolder.folderName);
+                    streamWriter.WriteLine("{0},{1}", randomFolder.folderPath, randomFolder.folderName);
                 }
             }
         }

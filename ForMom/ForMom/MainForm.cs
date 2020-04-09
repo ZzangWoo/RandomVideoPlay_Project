@@ -1,4 +1,5 @@
 ﻿using Entity;
+using ForMom.ServeForm.PlayList;
 using MakeLog;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
@@ -16,7 +17,7 @@ namespace ForMom
         #region # 전역변수
 
         string logPath = @"C:\TestLog\";
-        string randomVideoFolderLists = "RandomVideoFolderLists.txt";
+        string randomVideoFolderLists = "RandomVideoFolderLists.csv";
 
         List<RandomFolder> randomFolderList;
         //List<string> randomPlayList; // 랜덤 플레이 리스트
@@ -40,6 +41,17 @@ namespace ForMom
             #region ## 저장 로그 파일 불러오기
 
             randomFolderList = new List<RandomFolder>();
+
+            #region ### 로그 디렉토리 있는지 확인 - 없으면 생성
+
+            DirectoryInfo directoryInfo = new DirectoryInfo(logPath);
+
+            if (directoryInfo.Exists == false)
+            {
+                directoryInfo.Create();
+            }
+            
+            #endregion
 
             // 해당 경로에 리스트 저장 로그 파일 있는지 확인
             FileInfo fileInfo = new FileInfo(logPath + randomVideoFolderLists);
@@ -235,6 +247,33 @@ namespace ForMom
 
         #endregion
 
+        #region ## About PlayList
+
+        /// <summary>
+        /// 리스트 추가 버튼
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddListButton_Click(object sender, EventArgs e)
+        {
+            AddListForm addListForm = new AddListForm();
+
+            #region ### 폼 중복 열기 방지
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm.Name == "AddListForm")
+                {
+                    openForm.Activate();
+                    return;
+                }
+            }
+            #endregion
+
+            addListForm.Show();
+        }
+
+        #endregion
+
         #region ## About One
 
         #endregion
@@ -389,7 +428,7 @@ namespace ForMom
 
                     while ((listLogMessage = streamReader.ReadLine()) != null)
                     {
-                        string[] folderArray = listLogMessage.Split('\t');
+                        string[] folderArray = listLogMessage.Split(',');
 
                         DirectoryInfo directoryInfo = new DirectoryInfo(folderArray[0]);
                         if (directoryInfo.Exists)
@@ -453,6 +492,7 @@ namespace ForMom
 
         #endregion
 
+        
     }
 
 }
