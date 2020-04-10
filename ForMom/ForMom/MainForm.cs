@@ -72,7 +72,7 @@ namespace ForMom
         #region ## About Random
 
         /// <summary>
-        /// [랜덤] 폴더 선택
+        /// [랜덤] 폴더 추가
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -256,7 +256,7 @@ namespace ForMom
         /// <param name="e"></param>
         private void AddListButton_Click(object sender, EventArgs e)
         {
-            AddListForm addListForm = new AddListForm();
+            AddListForm addListForm = new AddListForm(logPath);
 
             #region ### 폼 중복 열기 방지
             foreach (Form openForm in Application.OpenForms)
