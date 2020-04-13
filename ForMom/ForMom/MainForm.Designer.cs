@@ -42,7 +42,7 @@
             this.metroUserControl3 = new MetroFramework.Controls.MetroUserControl();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
-            this.metroListView1 = new MetroFramework.Controls.MetroListView();
+            this.VideoCartListView = new MetroFramework.Controls.MetroListView();
             this.playListName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddListButton = new MetroFramework.Controls.MetroButton();
@@ -210,22 +210,22 @@
             this.metroLabel4.Text = "개별 재생";
             this.metroLabel4.UseCustomBackColor = true;
             // 
-            // metroListView1
+            // VideoCartListView
             // 
-            this.metroListView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.metroListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.VideoCartListView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.VideoCartListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.playListName,
             this.listCount});
-            this.metroListView1.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.metroListView1.FullRowSelect = true;
-            this.metroListView1.Location = new System.Drawing.Point(550, 131);
-            this.metroListView1.Name = "metroListView1";
-            this.metroListView1.OwnerDraw = true;
-            this.metroListView1.Size = new System.Drawing.Size(392, 271);
-            this.metroListView1.TabIndex = 9;
-            this.metroListView1.UseCompatibleStateImageBehavior = false;
-            this.metroListView1.UseSelectable = true;
-            this.metroListView1.View = System.Windows.Forms.View.Details;
+            this.VideoCartListView.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.VideoCartListView.FullRowSelect = true;
+            this.VideoCartListView.Location = new System.Drawing.Point(550, 131);
+            this.VideoCartListView.Name = "VideoCartListView";
+            this.VideoCartListView.OwnerDraw = true;
+            this.VideoCartListView.Size = new System.Drawing.Size(392, 271);
+            this.VideoCartListView.TabIndex = 9;
+            this.VideoCartListView.UseCompatibleStateImageBehavior = false;
+            this.VideoCartListView.UseSelectable = true;
+            this.VideoCartListView.View = System.Windows.Forms.View.Details;
             // 
             // playListName
             // 
@@ -264,6 +264,7 @@
             this.ListDeleteButton.TabIndex = 10;
             this.ListDeleteButton.Text = "삭제";
             this.ListDeleteButton.UseSelectable = true;
+            this.ListDeleteButton.Click += new System.EventHandler(this.ListDeleteButton_Click);
             // 
             // MainForm
             // 
@@ -274,7 +275,7 @@
             this.Controls.Add(this.ListDeleteButton);
             this.Controls.Add(this.ListPlayButton);
             this.Controls.Add(this.AddListButton);
-            this.Controls.Add(this.metroListView1);
+            this.Controls.Add(this.VideoCartListView);
             this.Controls.Add(this.RandomVedioCountUpDown);
             this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.RandomFolderPlayButton);
@@ -313,7 +314,7 @@
         private MetroFramework.Controls.MetroUserControl metroUserControl3;
         private MetroFramework.Controls.MetroLabel metroLabel3;
         private MetroFramework.Controls.MetroLabel metroLabel4;
-        private MetroFramework.Controls.MetroListView metroListView1;
+        private MetroFramework.Controls.MetroListView VideoCartListView;
         private System.Windows.Forms.ColumnHeader playListName;
         private System.Windows.Forms.ColumnHeader listCount;
         private MetroFramework.Controls.MetroButton AddListButton;

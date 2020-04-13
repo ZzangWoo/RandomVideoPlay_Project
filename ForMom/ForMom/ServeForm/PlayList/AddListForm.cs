@@ -15,8 +15,17 @@ namespace ForMom.ServeForm.PlayList
 {
     public partial class AddListForm : MetroFramework.Forms.MetroForm
     {
+        #region # Delegate
+
+        // 델리게이트 선언
+        public delegate void AddListFormCloseHandler(string listName, List<Video> videos);
+        // 이벤트 생성
+        public event AddListFormCloseHandler AddListFormCloseEvent;
+
+        #endregion
+
         #region # 전역변수
-        
+
         List<Video> videoList; // 영상 리스트
         MainLog log; // 로그
 
@@ -49,15 +58,25 @@ namespace ForMom.ServeForm.PlayList
         /// <param name="e"></param>
         private void MakeListButton_Click(object sender, EventArgs e)
         {
+            string listName = ListNameTextBox.Text;
+            // 이름 입력 예외 처리
+            if (string.IsNullOrEmpty(listName))
+            {
+                MessageBox.Show("장바구니 이름을 입력해주세요");
+                return;
+            }
+
+            // 장바구니 리스트 예외 처리
+            if (VideoListView.Items.Count <= 0)
+            {
+                MessageBox.Show("장바구니에 담겨져있는 영상이 없습니다.\n다시 확인해주세요.");
+                return;
+            }
+
             try
             {
-                string listName = ListNameTextBox.Text;
-
-                if (string.IsNullOrEmpty(listName))
-                {
-                    MessageBox.Show("장바구니 이름을 입력해주세요");
-                    return;
-                }
+                this.AddListFormCloseEvent(listName, videoList);
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -83,13 +102,15 @@ namespace ForMom.ServeForm.PlayList
                 {
                     try
                     {
-                        Video video = new Video(openFileDialog.FileName, Path.GetFileName(openFileDialog.FileName));
+                        Video video = new Video(videoList.Count + 1, 
+                            openFileDialog.FileName, 
+                            Path.GetFileName(openFileDialog.FileName));
                         videoList.Add(video);
 
-                        ListViewItem listViewItem = new ListViewItem("< " + videoList.Count.ToString() + " >   " + video.videoName);
-                        VideoListView.Items.Add(listViewItem);
+                        UpdateListView();
 
-                        
+
+
                         //VideoListView.Columns[1].DisplayIndex = 0;
                         //VideoListView.Columns[0].DisplayIndex = 1;
                         //VideoListView.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -108,14 +129,163 @@ namespace ForMom.ServeForm.PlayList
             }
         }
 
+        /// <summary>
+        /// 삭제 버튼 클릭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteVideoButton_Click(object sender, EventArgs e)
+        {
+            if (VideoListView.SelectedItems.Count > 0)
+            {
+                try
+                {
+                    int selectIndex = VideoListView.SelectedItems[0].Index + 1;
+                    videoList.RemoveAt(selectIndex - 1);
+
+                    foreach (Video video in videoList)
+                    {
+                        if (video.videoNum > selectIndex)
+                        {
+                            video.videoNum--;
+                        }
+                    }
+
+                    UpdateListView();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("[에러발생] 영상을 삭제하는 중 에러가 발생했습니다.\n관리자에게 문의해주세요.");
+                    log.WriteLog("[Error] : " + ex);
+                }
+            }
+            else
+            {
+                MessageBox.Show("삭제할 영상을 선택해주세요.");
+            }
+            
+        }
+
+        /// <summary>
+        /// 목록 위로 버튼 클릭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListUpButton_Click(object sender, EventArgs e)
+        {
+            if (VideoListView.SelectedItems.Count > 0)
+            {
+                int selectIndex = VideoListView.SelectedItems[0].Index + 1;
+
+                if (selectIndex == 1)
+                {
+                    MessageBox.Show("영상을 더이상 위로 올릴 수가 없습니다.");
+                }
+                else
+                {
+                    try
+                    {
+                        // 선택한 영상 객체 저장 후 List에서 제거
+                        Video tempVideo = videoList[selectIndex - 1];
+                        tempVideo.videoNum--;
+                        videoList.RemoveAt(selectIndex - 1);
+
+                        // 앞에 있는 영상 객체 번호 +1
+                        videoList[selectIndex - 2].videoNum++;
+
+                        // 앞에 있는 영상 위치에 저장한 객체 집어넣기
+                        videoList.Insert(selectIndex - 2, tempVideo);
+
+                        UpdateListView();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("[에러발생] : 알 수 없는 에러가 발생했습니다.\n관리자에게 문의해주세요");
+                        log.WriteLog("[Error] : " + ex);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("위치를 변경 할 영상을 선택해주세요.");
+            }
+        }
+
+        /// <summary>
+        /// 목록 아래로 버튼 클릭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListDownButton_Click(object sender, EventArgs e)
+        {
+            if (VideoListView.SelectedItems.Count > 0)
+            {
+                int selectIndex = VideoListView.SelectedItems[0].Index + 1;
+
+                if (selectIndex == VideoListView.Items.Count)
+                {
+                    MessageBox.Show("영상을 더이상 아래로 올릴 수가 없습니다.");
+                }
+                else
+                {
+                    try
+                    {
+                        // 선택한 영상 객체 저장 후 List에서 제거
+                        Video tempVideo = videoList[selectIndex - 1];
+                        tempVideo.videoNum++;
+                        videoList.RemoveAt(selectIndex - 1);
+
+                        // 앞에 있는 영상 객체 번호 +1
+                        videoList[selectIndex - 1].videoNum--;
+
+                        // 앞에 있는 영상 위치에 저장한 객체 집어넣기
+                        videoList.Insert(selectIndex, tempVideo);
+
+                        UpdateListView();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("[에러발생] : 알 수 없는 에러가 발생했습니다.\n관리자에게 문의해주세요");
+                        log.WriteLog("[Error] : " + ex);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("위치를 변경 할 영상을 선택해주세요.");
+            }
+        }
+
         #endregion
 
         #region # Public Method
 
+        /// <summary>
+        /// 리스트 뷰 업데이트
+        /// </summary>
+        public void UpdateListView()
+        {
+            try
+            {
+                VideoListView.Items.Clear();
+
+                foreach (Video video in videoList)
+                {
+                    ListViewItem listViewItem = new ListViewItem("< " + video.videoNum + " >   " + video.videoName);
+                    VideoListView.Items.Add(listViewItem);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[에러발생] 영상을 추가하는데 오류가 발생했습니다.\n관리자에게 문의해주세요.");
+                log.WriteLog("[Error] : " + ex);
+            }
+        }
+
 
 
         #endregion
 
-
+        
     }
 }

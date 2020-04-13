@@ -16,10 +16,8 @@ namespace ForMom
     {
         #region # 전역변수
 
-        string logPath = @"C:\TestLog\";
-        string randomVideoFolderLists = "RandomVideoFolderLists.csv";
-
         List<RandomFolder> randomFolderList;
+        Dictionary<string, List<Video>> listDictionary;
         //List<string> randomPlayList; // 랜덤 플레이 리스트
 
         MainLog log;
@@ -36,30 +34,89 @@ namespace ForMom
             InitializeComponent();
 
             // Log Class 생성
-            log = new MainLog(logPath);
+            log = new MainLog(PathList.logPath);
 
             #region ## 저장 로그 파일 불러오기
 
             randomFolderList = new List<RandomFolder>();
 
-            #region ### 로그 디렉토리 있는지 확인 - 없으면 생성
+            #region ### 디렉토리 있는지 확인 - 없으면 생성
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(logPath);
+            DirectoryInfo directoryInfo = new DirectoryInfo(PathList.mainPath);
+
+            if (directoryInfo.Exists == false)
+            {
+                directoryInfo.Create();
+            }
+
+            directoryInfo = new DirectoryInfo(PathList.logPath);
+
+            if (directoryInfo.Exists == false)
+            {
+                directoryInfo.Create();
+            }
+
+            directoryInfo = new DirectoryInfo(PathList.randomPath);
 
             if (directoryInfo.Exists == false)
             {
                 directoryInfo.Create();
             }
             
+            directoryInfo = new DirectoryInfo(PathList.listPath);
+
+            if (directoryInfo.Exists == false)
+            {
+                directoryInfo.Create();
+                listDictionary = new Dictionary<string, List<Video>>();
+            }
+            else
+            {
+                listDictionary = new Dictionary<string, List<Video>>();
+                
+                foreach (var file in directoryInfo.GetFiles())
+                {
+                    using (StreamReader streamReader = new StreamReader(file.FullName))
+                    {
+                        List<Video> videos = new List<Video>();
+
+                        string listString = string.Empty;
+                        while ((listString = streamReader.ReadLine()) != null)
+                        {
+                            string[] listArray = listString.Split(',');
+
+                            Video video = new Video(Int32.Parse(listArray[0]), listArray[1], listArray[2]);
+                            videos.Add(video);
+                        }
+
+                        listDictionary.Add(Path.GetFileNameWithoutExtension(file.FullName), videos);
+                    }
+                }
+
+                UpdateVideoCartListView();
+            }
+
+            directoryInfo = new DirectoryInfo(PathList.onePath);
+
+            if (directoryInfo.Exists == false)
+            {
+                directoryInfo.Create();
+            }
+
             #endregion
 
-            // 해당 경로에 리스트 저장 로그 파일 있는지 확인
-            FileInfo fileInfo = new FileInfo(logPath + randomVideoFolderLists);
+            // 해당 경로에 리스트 저장 로그 파일 있는지 확인 (로그 + 랜덤리스트)
+            FileInfo fileInfo = new FileInfo(PathList.randomPath + PathList.randomVideoFolderLists);
 
             if (fileInfo.Exists)
             {
                 GetListLogMessage();
             }
+
+            // 해당 경로에서 장바구니 리스트 파일 있는지 확인 -> 있으면 리스트 가져오기
+            directoryInfo = new DirectoryInfo(PathList.listPath);
+
+
 
             #endregion
 
@@ -109,7 +166,7 @@ namespace ForMom
                         RandomVideoFolderListView.Items.RemoveAt(index);
 
                         log.WriteLog("랜덤 리스트 삭제 완료");
-                        log.SaveListLog(randomFolderList, randomVideoFolderLists);
+                        log.SaveListLog(randomFolderList, PathList.randomVideoFolderLists, PathList.randomPath);
                         log.WriteLog("랜덤 리스트 업데이트 완료");
                     }
                     else
@@ -224,7 +281,7 @@ namespace ForMom
                         RandomVideoFolderListView.Items.RemoveAt(index);
 
                         log.WriteLog("랜덤 리스트 삭제 완료");
-                        log.SaveListLog(randomFolderList, randomVideoFolderLists);
+                        log.SaveListLog(randomFolderList, PathList.randomVideoFolderLists, PathList.randomPath);
                         log.WriteLog("랜덤 리스트 업데이트 완료");
                     }
 
@@ -256,7 +313,7 @@ namespace ForMom
         /// <param name="e"></param>
         private void AddListButton_Click(object sender, EventArgs e)
         {
-            AddListForm addListForm = new AddListForm(logPath);
+            AddListForm addListForm = new AddListForm(PathList.logPath);
 
             #region ### 폼 중복 열기 방지
             foreach (Form openForm in Application.OpenForms)
@@ -269,7 +326,46 @@ namespace ForMom
             }
             #endregion
 
-            addListForm.Show();
+            addListForm.AddListFormCloseEvent += new AddListForm.AddListFormCloseHandler(ListEvent);
+            addListForm.ShowDialog();
+        }
+
+        /// <summary>
+        /// 장바구니 목록 삭제 버튼
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListDeleteButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("선택하신 항목이 삭제됩니다.\n계속 하시겠습니까?", "항목 삭제", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    if (VideoCartListView.SelectedItems.Count > 0)
+                    {
+                        int index = VideoCartListView.FocusedItem.Index;
+                        string cartName = VideoCartListView.Items[index].Text;
+                        
+                        VideoCartListView.Items.RemoveAt(index);
+
+                        FileInfo fileInfo = new FileInfo(PathList.listPath + cartName + ".csv");
+                        fileInfo.Delete();
+
+                        listDictionary.Remove(cartName);
+
+                        UpdateVideoCartListView();
+                    }
+                    else
+                    {
+                        MessageBox.Show("선택된 항목이 없습니다.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[에러발생] 리스트 삭제 중 에러가 발생하였습니다. 관리자에게 문의해주세요.");
+                log.WriteLog("[Error] : In the Video Cart List (Delete) \n" + ex);
+            }
         }
 
         #endregion
@@ -334,7 +430,7 @@ namespace ForMom
                     listViewItem.SubItems.Add(videoCount.ToString() + "개");
                     RandomVideoFolderListView.Items.Add(listViewItem);
 
-                    log.SaveListLog(randomFolderList, randomVideoFolderLists);
+                    log.SaveListLog(randomFolderList, PathList.randomVideoFolderLists, PathList.randomPath);
                     log.WriteLog(folderName + " 추가");
                 }
                 else
@@ -359,7 +455,7 @@ namespace ForMom
                         listViewItem.SubItems.Add(videoCount.ToString() + "개");
                         RandomVideoFolderListView.Items.Add(listViewItem);
 
-                        log.SaveListLog(randomFolderList, randomVideoFolderLists);
+                        log.SaveListLog(randomFolderList, PathList.randomVideoFolderLists, PathList.randomPath);
                         log.WriteLog(folderName + " 추가");
                     }
                 }
@@ -422,7 +518,7 @@ namespace ForMom
 
             try
             {
-                using (StreamReader streamReader = new StreamReader(logPath + randomVideoFolderLists))
+                using (StreamReader streamReader = new StreamReader(PathList.randomPath + PathList.randomVideoFolderLists))
                 {
                     string listLogMessage = string.Empty;
 
@@ -475,7 +571,7 @@ namespace ForMom
                     RandomVideoFolderListView.Items.Add(listViewItem);
                 }
 
-                log.SaveListLog(randomFolderList, randomVideoFolderLists);
+                log.SaveListLog(randomFolderList, PathList.randomVideoFolderLists, PathList.randomPath);
             }
             catch (Exception e)
             {
@@ -488,6 +584,47 @@ namespace ForMom
             }
         }
 
+        /// <summary>
+        /// 장바구니 목록 업데이트
+        /// </summary>
+        public void UpdateVideoCartListView()
+        {
+            try
+            {
+                VideoCartListView.Items.Clear();
+
+                foreach (var item in listDictionary)
+                {
+                    ListViewItem listViewItem = new ListViewItem(item.Key);
+                    listViewItem.SubItems.Add(item.Value.Count.ToString() + "개");
+
+                    VideoCartListView.Items.Add(listViewItem);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[에러발생] 장바구니 목록 갱신할 때 오류가 발생했습니다.\n관리자에게 문의해주세요.");
+                log.WriteLog("[Error] : " + ex);
+            }
+        }
+
+        #endregion
+
+        #region # Event Handler
+
+        /// <summary>
+        /// 장바구니 만들고 나서의 Event
+        /// </summary>
+        /// <param name="listName"></param>
+        /// <param name="videos"></param>
+        private void ListEvent(string listName, List<Video> videos)
+        {
+            listDictionary.Add(listName, videos);
+
+            log.SaveVideoCartLists(listDictionary, listName);
+
+            UpdateVideoCartListView();
+        }
 
 
         #endregion

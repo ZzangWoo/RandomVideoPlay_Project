@@ -113,8 +113,8 @@
             // VideoName
             // 
             this.VideoName.Text = "영상 제목";
-            this.VideoName.Width = 282;
             this.VideoName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.VideoName.Width = 282;
             // 
             // AddVideoButton
             // 
@@ -138,6 +138,7 @@
             this.ListUpButton.Size = new System.Drawing.Size(35, 54);
             this.ListUpButton.TabIndex = 6;
             this.ListUpButton.UseVisualStyleBackColor = true;
+            this.ListUpButton.Click += new System.EventHandler(this.ListUpButton_Click);
             // 
             // ListDownButton
             // 
@@ -147,6 +148,7 @@
             this.ListDownButton.Size = new System.Drawing.Size(35, 54);
             this.ListDownButton.TabIndex = 6;
             this.ListDownButton.UseVisualStyleBackColor = true;
+            this.ListDownButton.Click += new System.EventHandler(this.ListDownButton_Click);
             // 
             // MakeListButton
             // 
@@ -170,6 +172,7 @@
             this.DeleteVideoButton.UseCustomBackColor = true;
             this.DeleteVideoButton.UseCustomForeColor = true;
             this.DeleteVideoButton.UseSelectable = true;
+            this.DeleteVideoButton.Click += new System.EventHandler(this.DeleteVideoButton_Click);
             // 
             // AddListForm
             // 

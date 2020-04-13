@@ -12,7 +12,7 @@ namespace MakeLog
     {
 
         private string logPath;
-
+                
         #region # Constructor
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace MakeLog
         /// </summary>
         /// <param name="message"></param>
         /// <param name="logName"></param>
-        public void SaveListLog(List<RandomFolder> randomFolders, string logName)
+        public void SaveListLog(List<RandomFolder> randomFolders, string logName, string path)
         {
-            using (StreamWriter streamWriter = new StreamWriter(logPath + logName, false, Encoding.UTF8))
+            using (StreamWriter streamWriter = new StreamWriter(path + logName, false, Encoding.UTF8))
             {
                 foreach (var randomFolder in randomFolders)
                 {
@@ -44,6 +44,28 @@ namespace MakeLog
                     streamWriter.WriteLine("{0},{1}", randomFolder.folderPath, randomFolder.folderName);
                 }
             }
+        }
+
+        /// <summary>
+        /// 장바구니 csv로 변환
+        /// </summary>
+        public void SaveVideoCartLists(Dictionary<string, List<Video>> listDictionary, string insertListName)
+        {
+            foreach (KeyValuePair<string, List<Video>> item in listDictionary)
+            {
+                if (item.Key == insertListName)
+                {
+                    using (StreamWriter streamWriter = new StreamWriter(PathList.listPath + item.Key + ".csv", false, Encoding.UTF8))
+                    {
+                        foreach (var video in item.Value)
+                        {
+                            streamWriter.WriteLine("{0},{1},{2}", video.videoNum, video.videoPath, video.videoName);
+                        }
+                    }
+                }
+            }
+
+            WriteLog("[Info] : 장바구니 목록 csv 파일로 변환");
         }
 
 
