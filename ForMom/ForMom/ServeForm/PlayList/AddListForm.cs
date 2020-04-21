@@ -18,9 +18,12 @@ namespace ForMom.ServeForm.PlayList
         #region # Delegate
 
         // 델리게이트 선언
-        public delegate void AddListFormCloseHandler(string listName, List<Video> videos);
+        public delegate void AddListFormCloseHandler(string listName, List<Video> videos); // 장바구니 생성
+        public delegate void ModifyListFormCloseHandler(string preListName, string listName, List<Video> videos); // 장바구니 수정
+
         // 이벤트 생성
-        public event AddListFormCloseHandler AddListFormCloseEvent;
+        public event AddListFormCloseHandler AddListFormCloseEvent; // 장바구니 생성
+        public event ModifyListFormCloseHandler ModifyListFormCloseEvent; // 장바구니 수정
 
         #endregion
 
@@ -28,6 +31,9 @@ namespace ForMom.ServeForm.PlayList
 
         List<Video> videoList; // 영상 리스트
         MainLog log; // 로그
+
+        // 수정 시 처음 입력된 장바구니 이름
+        string preListName = string.Empty;
 
         #endregion
 
@@ -45,6 +51,34 @@ namespace ForMom.ServeForm.PlayList
 
             // 영상 리스트 동적 할당
             videoList = new List<Video>();
+        }
+
+        /// <summary>
+        /// 생성자 (수정)
+        /// </summary>
+        /// <param name="cartName"></param>
+        /// <param name="videoList"></param>
+        public AddListForm(string cartName, List<Video> videoList)
+        {
+            InitializeComponent();
+
+            // 컨트롤 텍스트 변경
+            this.Text = "동영상 장바구니 수정";
+            ListNameTextBox.Text = cartName;
+            MakeListButton.Text = "수정";
+
+            // 리스트 뷰에 영상 리스트 넣기
+            foreach (var video in videoList)
+            {
+                ListViewItem listViewItem = new ListViewItem("< " + video.videoNum + " >   " + video.videoName);
+                VideoListView.Items.Add(listViewItem);
+            }
+
+            // 전역변수 리스트 초기화
+            this.videoList = videoList;
+
+            // 장바구니 이름 저장
+            preListName = cartName;
         }
 
         #endregion
@@ -75,8 +109,16 @@ namespace ForMom.ServeForm.PlayList
 
             try
             {
-                this.AddListFormCloseEvent(listName, videoList);
-                this.Close();
+                if (MakeListButton.Text == "만들기")
+                {
+                    this.AddListFormCloseEvent(listName, videoList);
+                    this.Close();
+                }
+                else if (MakeListButton.Text == "수정")
+                {
+                    this.ModifyListFormCloseEvent(preListName, listName, videoList);
+                    this.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -224,7 +266,7 @@ namespace ForMom.ServeForm.PlayList
 
                 if (selectIndex == VideoListView.Items.Count)
                 {
-                    MessageBox.Show("영상을 더이상 아래로 올릴 수가 없습니다.");
+                    MessageBox.Show("영상을 더이상 아래로 내릴 수가 없습니다.");
                 }
                 else
                 {

@@ -90,6 +90,12 @@
     <Compile Include="ServeForm\PlayList\AddListForm.Designer.cs">
       <DependentUpon>AddListForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ServeForm\PlayList\ConfirmListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServeForm\PlayList\ConfirmListForm.Designer.cs">
+      <DependentUpon>ConfirmListForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ServeForm\PlayList\AddListForm.resx">
       <DependentUpon>AddListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServeForm\PlayList\ConfirmListForm.resx">
+      <DependentUpon>ConfirmListForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

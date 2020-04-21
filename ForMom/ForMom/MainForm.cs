@@ -231,9 +231,13 @@ namespace ForMom
                                     log.WriteLog("[랜덤 재생] : 재생할 영상 개수와 폴더 안 영상 개수 비교 확인");
                                     List<string> randomPlayList = AddPlayList(randomFolderList[index].folderPath);
 
-                                    PlayForm playForm = new PlayForm(randomPlayList);
-                                    playForm.Owner = this;
-                                    playForm.Show();
+                                    //PlayForm playForm = new PlayForm(randomPlayList);
+                                    //playForm.Owner = this;
+                                    //playForm.Show();
+                                    using (PlayForm playForm = new PlayForm(randomPlayList))
+                                    {
+                                        playForm.ShowDialog();
+                                    }
 
                                     //WindowsMediaPlayer player = new WindowsMediaPlayer();
                                     //IWMPPlaylist playList = player.playlistCollection.newPlaylist("RandomPlayList");
@@ -366,6 +370,209 @@ namespace ForMom
                 MessageBox.Show("[에러발생] 리스트 삭제 중 에러가 발생하였습니다. 관리자에게 문의해주세요.");
                 log.WriteLog("[Error] : In the Video Cart List (Delete) \n" + ex);
             }
+        }
+
+        /// <summary>
+        /// 리스트 확인 버튼 클릭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConfirmListButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (VideoCartListView.SelectedItems.Count > 0)
+                {
+                    int index = VideoCartListView.FocusedItem.Index;
+                    string cartName = VideoCartListView.Items[index].Text;
+
+                    ConfirmListForm confirmListForm = new ConfirmListForm(listDictionary[cartName]);
+                    confirmListForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("선택된 항목이 없습니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[에러발생] 리스트 확인 중 에러가 발생하였습니다. 관리자에게 문의해주세요.");
+                log.WriteLog("[Error] : In the Video Cart List (Confirm) \n" + ex);
+            }
+        }
+
+        /// <summary>
+        /// 리스트 수정 버튼 클릭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ModifyListButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (VideoCartListView.SelectedItems.Count > 0)
+                {
+                    int index = VideoCartListView.FocusedItem.Index;
+                    string cartName = VideoCartListView.Items[index].Text;
+
+                    AddListForm addListForm = new AddListForm(cartName, listDictionary[cartName]);
+                    addListForm.ModifyListFormCloseEvent += new AddListForm.ModifyListFormCloseHandler(ModifyEvent);
+                    addListForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("선택된 항목이 없습니다.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[에러발생] 리스트 수정 중 에러가 발생하였습니다. 관리자에게 문의해주세요.");
+                log.WriteLog("[Error] : In the Video Cart List (Modify) \n" + ex);
+            }
+        }
+
+        /// <summary>
+        /// 장바구니 재생 버튼 클릭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CartListPlayButton_Click(object sender, EventArgs e)
+        {
+            #region ### 폼 중복 열기 방지
+
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm.Name == "PlayForm")
+                {
+                    openForm.Activate();
+                    return;
+                }
+            }
+
+            #endregion
+
+            #region ### 예외처리
+
+            if (VideoCartListView.SelectedItems.Count > 0)
+            {
+                int index = VideoCartListView.FocusedItem.Index;
+                string cartName = VideoCartListView.Items[index].Text;
+
+                FileInfo fileInfo = new FileInfo(PathList.listPath + cartName + ".csv");
+
+                // 해당 장바구니 파일 존재 여부 확인
+                if (fileInfo.Exists)
+                {
+                    List<Video> videos = new List<Video>();
+
+                    // 파일 읽기
+                    try
+                    {
+                        using (StreamReader streamReader = new StreamReader(fileInfo.FullName))
+                        {
+                            string listString = string.Empty;
+                            while ((listString = streamReader.ReadLine()) != null)
+                            {
+                                string[] listArray = listString.Split(',');
+
+                                Video video = new Video(Int32.Parse(listArray[0]), listArray[1], listArray[2]);
+                                videos.Add(video);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("[에러발생] 리스트 파일을 읽는 중 에러가 발생하였습니다. 관리자에게 문의해주세요.");
+                        log.WriteLog("[Error] : In the Video Cart List (Reading) \n" + ex);
+                    }
+
+                    // 읽은 파일 개수 확인
+                    if (videos.Count > 0)
+                    {
+                        int notExistCount = 0;
+                        int listIndex = 0;
+
+                        // 파일 존재 여부 확인
+                        List<int> removeIndex = new List<int>();
+                        foreach (var video in videos)
+                        {
+                            FileInfo videoFile = new FileInfo(video.videoPath);
+                            if (!videoFile.Exists)
+                            {
+                                notExistCount++;
+
+                                removeIndex.Add(listIndex);
+                            }
+                            listIndex++;
+                        }
+
+                        // 장바구니에 해당 경로에 없는 파일이 있으면
+                        if (notExistCount != 0)
+                        {
+                            removeIndex.Reverse();
+
+                            foreach (var idx in removeIndex)
+                            {
+                                videos.RemoveAt(idx);
+
+                                // 경로에 없는 파일 삭제 후 번호 재정렬
+                                foreach (Video data in videos)
+                                {
+                                    if (data.videoNum > idx + 1)
+                                    {
+                                        data.videoNum--;
+                                    }
+                                }
+                            }
+
+                            listDictionary[cartName] = videos;
+
+                            log.SaveVideoCartLists(listDictionary, cartName);
+                            UpdateVideoCartListView();
+
+                            MessageBox.Show("해당 경로에 존재하지 않는 파일이 " + notExistCount + "개가 발견되었습니다.\n해당 파일은 장바구니 리스트에서 삭제되었습니다.");
+                        }
+
+                        // 장바구니 재생
+                        try
+                        {
+                            // 플레이 리스트 만들기
+                            List<string> playList = new List<string>();
+                            foreach (var video in videos)
+                            {
+                                playList.Add(video.videoPath);
+                            }
+
+                            //PlayForm playForm = new PlayForm(playList);
+                            //playForm.Owner = this;
+                            //playForm.Show();
+                            using (PlayForm playForm = new PlayForm(playList))
+                            {
+                                playForm.ShowDialog();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("[에러발생] 장바구니 파일 재생 중 에러가 발생하였습니다. 관리자에게 문의해주세요.");
+                            log.WriteLog("[Error] : In the Video Cart List (Playing) \n" + ex);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("재생할 장바구니에 리스트가 존재하지 않습니다.\n해당 장바구니를 삭제 후 다시 만들어주세요.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("해당 장바구니 파일이 존재하지 않습니다.\n파일 저장 위치를 확인해주세요.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("선택된 항목이 없습니다.");
+            }
+
+            #endregion
         }
 
         #endregion
@@ -625,6 +832,34 @@ namespace ForMom
 
             UpdateVideoCartListView();
         }
+
+        /// <summary>
+        /// 장바구니 수정하고 나서의 Event
+        /// </summary>
+        /// <param name="preListName"></param>
+        /// <param name="listName"></param>
+        /// <param name="videos"></param>
+        private void ModifyEvent(string preListName, string listName, List<Video> videos)
+        {
+            // 장바구니 이름이 수정되지 않은경우 -> Dictionary만 수정
+            if (preListName == listName)
+            {
+                listDictionary[listName] = videos;
+            }
+            // 장바구니 이름이 수정된 경우 -> Dictionary 삭제 및 preListName에 대한 파일 삭제 후 재생성
+            else
+            {
+                listDictionary.Remove(preListName);
+                FileInfo fileInfo = new FileInfo(PathList.listPath + preListName + ".csv");
+                fileInfo.Delete();
+
+                listDictionary.Add(listName, videos);
+            }
+
+            log.SaveVideoCartLists(listDictionary, listName);
+            UpdateVideoCartListView();
+        }
+
 
 
         #endregion

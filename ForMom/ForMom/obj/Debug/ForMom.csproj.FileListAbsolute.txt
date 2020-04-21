@@ -27,3 +27,4 @@ D:\Projects\ForMom\ForMom\ForMom\obj\Debug\AxInterop.WMPLib.dll
 D:\Projects\ForMom\ForMom\ForMom\obj\Debug\ForMom.csproj.ResolveComReference.cache
 D:\Projects\ForMom\ForMom\ForMom\obj\Debug\ForMom.PlayForm.resources
 D:\Projects\ForMom\ForMom\ForMom\obj\Debug\ForMom.ServeForm.PlayList.AddListForm.resources
+D:\Projects\ForMom\ForMom\ForMom\obj\Debug\ForMom.ServeForm.PlayList.ConfirmListForm.resources

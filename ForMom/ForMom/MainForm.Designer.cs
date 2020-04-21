@@ -46,8 +46,10 @@
             this.playListName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddListButton = new MetroFramework.Controls.MetroButton();
-            this.ListPlayButton = new MetroFramework.Controls.MetroButton();
+            this.CartListPlayButton = new MetroFramework.Controls.MetroButton();
             this.ListDeleteButton = new MetroFramework.Controls.MetroButton();
+            this.ConfirmListButton = new MetroFramework.Controls.MetroButton();
+            this.ModifyListButton = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.RandomVedioCountUpDown)).BeginInit();
             this.SuspendLayout();
             // 
@@ -241,30 +243,51 @@
             // 
             this.AddListButton.Location = new System.Drawing.Point(550, 420);
             this.AddListButton.Name = "AddListButton";
-            this.AddListButton.Size = new System.Drawing.Size(110, 82);
+            this.AddListButton.Size = new System.Drawing.Size(110, 41);
             this.AddListButton.TabIndex = 10;
             this.AddListButton.Text = "리스트 추가";
             this.AddListButton.UseSelectable = true;
             this.AddListButton.Click += new System.EventHandler(this.AddListButton_Click);
             // 
-            // ListPlayButton
+            // CartListPlayButton
             // 
-            this.ListPlayButton.Location = new System.Drawing.Point(832, 418);
-            this.ListPlayButton.Name = "ListPlayButton";
-            this.ListPlayButton.Size = new System.Drawing.Size(110, 82);
-            this.ListPlayButton.TabIndex = 10;
-            this.ListPlayButton.Text = "재생";
-            this.ListPlayButton.UseSelectable = true;
+            this.CartListPlayButton.Location = new System.Drawing.Point(832, 418);
+            this.CartListPlayButton.Name = "CartListPlayButton";
+            this.CartListPlayButton.Size = new System.Drawing.Size(110, 91);
+            this.CartListPlayButton.TabIndex = 10;
+            this.CartListPlayButton.Text = "재생";
+            this.CartListPlayButton.UseSelectable = true;
+            this.CartListPlayButton.Click += new System.EventHandler(this.CartListPlayButton_Click);
             // 
             // ListDeleteButton
             // 
             this.ListDeleteButton.Location = new System.Drawing.Point(694, 420);
             this.ListDeleteButton.Name = "ListDeleteButton";
-            this.ListDeleteButton.Size = new System.Drawing.Size(110, 82);
+            this.ListDeleteButton.Size = new System.Drawing.Size(110, 41);
             this.ListDeleteButton.TabIndex = 10;
-            this.ListDeleteButton.Text = "삭제";
+            this.ListDeleteButton.Text = "리스트 삭제";
             this.ListDeleteButton.UseSelectable = true;
             this.ListDeleteButton.Click += new System.EventHandler(this.ListDeleteButton_Click);
+            // 
+            // ConfirmListButton
+            // 
+            this.ConfirmListButton.Location = new System.Drawing.Point(550, 468);
+            this.ConfirmListButton.Name = "ConfirmListButton";
+            this.ConfirmListButton.Size = new System.Drawing.Size(110, 41);
+            this.ConfirmListButton.TabIndex = 11;
+            this.ConfirmListButton.Text = "리스트 확인";
+            this.ConfirmListButton.UseSelectable = true;
+            this.ConfirmListButton.Click += new System.EventHandler(this.ConfirmListButton_Click);
+            // 
+            // ModifyListButton
+            // 
+            this.ModifyListButton.Location = new System.Drawing.Point(694, 468);
+            this.ModifyListButton.Name = "ModifyListButton";
+            this.ModifyListButton.Size = new System.Drawing.Size(110, 41);
+            this.ModifyListButton.TabIndex = 11;
+            this.ModifyListButton.Text = "리스트 수정";
+            this.ModifyListButton.UseSelectable = true;
+            this.ModifyListButton.Click += new System.EventHandler(this.ModifyListButton_Click);
             // 
             // MainForm
             // 
@@ -272,8 +295,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1501, 557);
+            this.Controls.Add(this.ModifyListButton);
+            this.Controls.Add(this.ConfirmListButton);
             this.Controls.Add(this.ListDeleteButton);
-            this.Controls.Add(this.ListPlayButton);
+            this.Controls.Add(this.CartListPlayButton);
             this.Controls.Add(this.AddListButton);
             this.Controls.Add(this.VideoCartListView);
             this.Controls.Add(this.RandomVedioCountUpDown);
@@ -318,8 +343,10 @@
         private System.Windows.Forms.ColumnHeader playListName;
         private System.Windows.Forms.ColumnHeader listCount;
         private MetroFramework.Controls.MetroButton AddListButton;
-        private MetroFramework.Controls.MetroButton ListPlayButton;
+        private MetroFramework.Controls.MetroButton CartListPlayButton;
         private MetroFramework.Controls.MetroButton ListDeleteButton;
+        private MetroFramework.Controls.MetroButton ConfirmListButton;
+        private MetroFramework.Controls.MetroButton ModifyListButton;
     }
 }
 
